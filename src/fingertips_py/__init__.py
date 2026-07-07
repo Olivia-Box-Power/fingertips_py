@@ -1,5 +1,5 @@
 
-__version__ = '0.4.2'
+__version__ = '0.4.3'
 
 from fingertips_py.api_calls import get_json, make_request
 from fingertips_py.retrieve_data import get_all_data_for_profile, get_all_data_for_indicators, get_data_by_indicator_ids, \
