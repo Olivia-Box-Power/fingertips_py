@@ -1,3 +1,6 @@
+# Fingertips_py V 0.4.3
+* No change for user. Fixed issue with GitHub actions.
+
 # Fingertips_py V 0.4.2
 * No change for user. Fixed issue with displaying README on pypi.
 
