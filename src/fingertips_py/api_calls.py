@@ -11,10 +11,19 @@ from io import StringIO
 
 def make_request(url, attr=None):
     """
-    :param url: A url to make a request
-    :param attr: The attribute that needs to be returned
-    :return: a dict of the attribute and associated data
-
+    Makes a request to the given URL and returns the specified attribute.
+    
+    Parameters
+    ----------
+    url : str
+        A URL to make a request.
+    attr : str
+        The attribute that needs to be returned.
+    
+    Returns
+    -------
+    dict
+        A dictionary of the attribute and associated data.
     """
     try:
         req = requests.get(url)
@@ -30,8 +39,17 @@ def make_request(url, attr=None):
 
 def get_json(url):
     """
-    :param url: A url to make a request
-    :return: A parsed JSON object
+    Makes a request to the given URL and returns a parsed JSON object.
+    
+    Parameters
+    ----------
+    url : str
+        A URL to make a request.
+    
+    Returns
+    -------
+    dict
+        A parsed JSON object.
     """
     try:
         req = requests.get(url)
@@ -43,9 +61,23 @@ def get_json(url):
 
 def get_json_return_df(url, transpose=True):
     """
-    :param url: A url to make a request
-    :param transpose: [OPTIONAL] transposes dataframe. Default True.
-    :return: Dataframe generated from JSON response.
+    Makes a request to the given URL and returns a dataframe generated from the JSON response.
+    
+    Parameters
+    ----------
+    url : str
+        A URL to make a request.
+    transpose : bool, optional
+        Transposes dataframe. Default is True.
+    
+    Returns
+    -------
+    DataFrame
+        Dataframe generated from JSON response.
+    
+    Notes
+    -----
+    This is a private method.
 
     :meta private:
     """
@@ -64,11 +96,26 @@ def get_json_return_df(url, transpose=True):
     
 def get_data_in_dict(url, key = None, value = None):
     """
-    :param url: A url to make a request
-    :param key: The item in the JSON to be used as the dictionary key
-    :param value: The item in the JSON to be used as the dictionary value
-    :return: A dictionary of returned data using first item as dictionary key by default
-
+    Makes a request to the given URL and returns a dictionary of data.
+    
+    Parameters
+    ----------
+    url : str
+        A URL to make a request.
+    key : str, optional
+        The item in the JSON to be used as the dictionary key.
+    value : str, optional
+        The item in the JSON to be used as the dictionary value.
+    
+    Returns
+    -------
+    dict
+        A dictionary of returned data using the first item as the dictionary key by default.
+    
+    Notes
+    -----
+    This is a private method.
+    
     :meta private:
     """
     json_list = get_json(url)
@@ -86,9 +133,22 @@ def get_data_in_dict(url, key = None, value = None):
 
 def deal_with_url_error(url):
     """
-    :param url: A url that returns a URL Error based on SSL errors
-    :return: A dataframe from the URL with varify set to false.
-
+    Makes a request to the given URL and returns a dataframe, ignoring SSL errors.
+    
+    Parameters
+    ----------
+    url : str
+        A URL that returns a URL Error based on SSL errors.
+    
+    Returns
+    -------
+    DataFrame
+        A dataframe from the URL with verify set to false.
+    
+    Notes
+    -----
+    This is a private method.
+    
     :meta private:
     """
     req = requests.get(url, verify=False)

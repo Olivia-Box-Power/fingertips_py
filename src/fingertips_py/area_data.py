@@ -11,12 +11,23 @@ def defined_qcut(df, value_series, number_of_bins, bins_for_extras, labels=False
     """
     Allows users to define how values are split into bins when clustering.
 
-    :param df: Dataframe of values
-    :param value_series: Name of value column to rank upon
-    :param number_of_bins: Integer of number of bins to create
-    :param bins_for_extras: Ordered list of bin numbers to assign uneven splits
-    :param labels: Optional. Labels for bins if required
-    :return: A dataframe with a new column 'bins' which contains the cluster numbers
+    Parameters
+    ----------
+    df : DataFrame
+        Dataframe of values.
+    value_series : str
+        Name of value column to rank upon.
+    number_of_bins : int
+        Integer of number of bins to create.
+    bins_for_extras : list
+        Ordered list of bin numbers to assign uneven splits.
+    labels : list, optional
+        Labels for bins if required.
+
+    Returns
+    -------
+    DataFrame
+        A dataframe with a new column 'bins' which contains the cluster numbers.
     """
     if max(bins_for_extras) > number_of_bins or any(x < 0 for x in bins_for_extras):
         raise ValueError('Attempted to allocate to a bin that doesnt exist')
@@ -71,10 +82,19 @@ def deprivation_decile(area_type_id, year='2015', area_code=None):
     Takes in an area type id and returns a pandas series of deprivation deciles for those areas (with the areas as an
     index. If a specific area is requested, it returns just the deprivation decile value.
 
-    :param area_type_id: Area type id as denoted by the Fingertips API
-    :param year: Year of deprivation score
-    :param area_code: Optional. Area code for area type to return a single value for that area
-    :return: A pandas series of deprivation scores with area codes as the index. Or single value if area is specified.
+    Parameters
+    ----------
+    area_type_id : int
+        Area type id as denoted by the Fingertips API.
+    year : str
+        Year of deprivation score.
+    area_code : int, optional
+        Area code for area type to return a single value for that area.
+
+    Returns
+    -------
+    Series
+        A pandas series of deprivation scores with area codes as the index. Or single value if area is specified.
     """
     warnings.warn('Caution, the deprivation deciles are being calculated on the fly and might show some inconsistencies'
                   ' from the live Fingertips site.')
@@ -113,6 +133,3 @@ def deprivation_decile(area_type_id, year='2015', area_code=None):
         except KeyError:
             raise KeyError('This area is not available at in this area type. Please try another area type')
     return area_dep_dec['bins']
-
-
-

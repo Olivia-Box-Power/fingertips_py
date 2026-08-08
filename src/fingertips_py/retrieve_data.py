@@ -13,13 +13,28 @@ def get_data_by_indicator_ids(indicator_ids, area_type_id, parent_area_type_id=1
                               include_sortable_time_periods=None, is_test=False):
     """
     Returns a dataframe of indicator data given a list of indicators and area types.
-    :param indicator_ids: Single indicator ID or list of indicator IDs, as integers or strings
-    :param area_type_id: ID of area type (eg. CCG, Upper Tier Local Authority) used in Fingertips as integer or string
-    :param parent_area_type_id: Area type of parent area - defaults to England value
-    :param profile_id: ID of profile to select by as either int or string
-    :param include_sortable_time_periods: Boolean as to whether to include a sort-friendly data field
-    :param is_test: Used for testing. Returns a tuple of expected return and the URL called to retrieve the data
-    :return: A dataframe of data relating to the given indicators
+    
+    Parameters
+    ----------
+    indicator_ids : int, str, or list of int or str
+        Single indicator ID or list of indicator IDs, as integers or strings.
+    area_type_id : int or str
+        ID of area type (e.g., CCG, Upper Tier Local Authority) used in Fingertips as integer or string.
+    parent_area_type_id : int or str, optional
+        Area type of parent area - defaults to England value.
+    profile_id : int or str, optional
+        ID of profile to select by as either int or string.
+    include_sortable_time_periods : bool, optional
+        Boolean as to whether to include a sort-friendly data field.
+    is_test : bool, optional
+        Used to retrieve the associated URL if True.
+    
+    Returns
+    -------
+    DataFrame
+        Data relating to the given indicators if `is_test` is False.
+    tuple of (DataFrame, str)
+        Data relating to the given indicators and the URL called to retrieve the data if `is_test` is True.
     """
 
     url_suffix = 'all_data/csv/by_indicator_id?indicator_ids={}&child_area_type_id={}&parent_area_type_id={}'
@@ -53,13 +68,27 @@ def get_all_data_for_profile(profile_id, parent_area_type_id=15, area_type_id = 
                              is_test=False):
     """
     Returns a dataframe of data for all indicators within a profile.
-
-    :param profile_id: ID used in Fingertips to identify a profile as integer or string
-    :param parent_area_type_id: Area type of parent area - defaults to England value
-    :param area_type_id: Option to only return data for a given area type. Area type ids are string, int or a list.
-    :param filter_by_area_codes: Option to limit returned data to areas. Areas as either string or list of strings.
-    :param is_test: Used for testing. Returns a tuple of expected return and the URL called to retrieve the data
-    :return: A dataframe of data for all indicators within a profile with any filters applied
+    
+    Parameters
+    ----------
+    profile_id : int or str
+        ID used in Fingertips to identify a profile as integer or string.
+    parent_area_type_id : int or str, optional
+        Area type of parent area - defaults to England value.
+    area_type_id : int, str, or list of int or str, optional
+        Option to only return data for a given area type. Area type ids are string, int or a list.
+    filter_by_area_codes : str or list of str, optional
+        Option to limit returned data to areas. Areas as either string or list of strings.
+    is_test : bool, optional
+        Used to retrieve the associated URL if True.
+    
+    Returns
+    -------
+    DataFrame
+        Data for all indicators within a profile with any filters applied if `is_test` is False.
+    tuple of (DataFrame, str)
+        A dataframe of data for all indicators within a profile with any filters applied and the URL called
+         to retrieve the data if `is_test` is True.
     """
     if area_type_id is not None:
         if type(area_type_id) == int:
@@ -94,13 +123,26 @@ def get_all_data_for_indicators(indicators, area_type_id, parent_area_type_id=15
                                 is_test=False):
     """
     Returns a dataframe of data for given indicators at an area.
-
-    :param indicators: List or integer or string of indicator IDs
-    :param area_type_id: ID of area type (eg. ID of General Practice is 7 etc) used in Fingertips as integer or string
-    :param parent_area_type_id: Area type of parent area - defaults to England value
-    :param filter_by_area_codes: Option to limit returned data to areas. Areas as either string or list of strings
-    :param is_test: Used for testing. Returns a tuple of expected return and the URL called to retrieve the data
-    :return: Dataframe of data for given indicators at an area
+    
+    Parameters
+    ----------
+    indicators : int, str, or list of int or str
+        List or integer or string of indicator IDs.
+    area_type_id : int or str
+        ID of area type (e.g., ID of General Practice is 7 etc) used in Fingertips as integer or string.
+    parent_area_type_id : int or str, optional
+        Area type of parent area - defaults to England value.
+    filter_by_area_codes : str or list of str, optional
+        Option to limit returned data to areas. Areas as either string or list of strings.
+    is_test : bool, optional
+        Used to retrieve the associated URL if True.
+    
+    Returns
+    -------
+    DataFrame
+        Dataframe of data for given indicators at an area if `is_test` is False.
+    DataFrame or tuple
+        Dataframe of data for given indicators at an area and the URL called to retrieve the data if `is_test` is True.
     """
     if isinstance(indicators, list):
         if any(isinstance(ind, int) for ind in indicators):
@@ -132,9 +174,12 @@ def get_all_data_for_indicators(indicators, area_type_id, parent_area_type_id=15
 def get_all_areas_for_all_indicators():
     """
     Returns a dictionary of all indicators and their geographical breakdowns.
-
-    :return: Dictionary of all indicators (ID as key) and their geographical breakdowns
-    """
+    
+    Returns
+    -------
+    dict
+        Dictionary of all indicators (ID as key) and their geographical breakdowns.
+    """ 
     url_suffix = 'available_data'
     all_area_ids = get_json(base_url + url_suffix)
     all_indicators = list(set([x.get('IndicatorId') for x in all_area_ids]))
@@ -152,9 +197,16 @@ def get_all_areas_for_all_indicators():
 def get_data_for_indicator_at_all_available_geographies(indicator_id):
     """
     Returns a dataframe of all data for an indicator for all available geographies.
-
-    :param indicator_id: Indicator id
-    :return: Dataframe of data for indicator for all available areas for all time periods
+    
+    Parameters
+    ----------
+    indicator_id : int or str
+        Indicator id.
+    
+    Returns
+    -------
+    DataFrame
+        Dataframe of data for indicator for all available areas for all time periods.
     """
     all_area_for_all_indicators = get_all_areas_for_all_indicators()
     areas_to_get = all_area_for_all_indicators.get(indicator_id)
