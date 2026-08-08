@@ -161,6 +161,7 @@ def get_data_for_indicator_at_all_available_geographies(indicator_id):
     df = pd.DataFrame()
     for area in areas_to_get:
         df_temp = get_data_by_indicator_ids(indicator_id, area)
-        df = pd.concat([df, df_temp])
+        if not temp_df.empty:
+          df = pd.concat([df, df_temp])
     df.drop_duplicates(inplace=True)
     return df
